@@ -1,32 +1,35 @@
 'use strict';
 
-const { sequelize } = require('../models');
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
     /**
      * Add altering commands here.
      *
-     * Example:*/
+     * Example:
+     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
+     */
+
     await queryInterface.addColumn(
       'Bookings',
-      'noofSeats',
+      'noOfSeats',
       {
-      type : Sequelize.INTEGER,
-      allowNull  : false,
-      defaultValue : 1
-    }); 
+        type : Sequelize.INTEGER,
+        allowNull : false,
+        defaultValue : 1
+      }
+    )
 
     await queryInterface.addColumn(
       'Bookings',
       'totalCost',
       {
         type : Sequelize.INTEGER,
-        allowNull  : false,
+        allowNull : false,
         defaultValue : 0
-      });
-     
+      }
+    )
+
   },
 
   async down (queryInterface, Sequelize) {
@@ -36,7 +39,7 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.removeColumn('Bookings','noofSeats');
-    await queryInterface.removeColumn('Bookings','totalCost');
+    await queryInterface.removeColumn('Bookings', 'noOfSeats');
+    await queryInterface.removeColumn('Bookings', 'totalCost');
   }
 };
