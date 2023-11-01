@@ -1,4 +1,4 @@
-const { StatusCodes } = require('http-status-code');
+const { StatusCodes } = require('http-status-codes');
 
 class ServiceError extends Error{
 

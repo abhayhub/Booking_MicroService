@@ -1,6 +1,6 @@
 const { Booking } = require('../models/index');
 const { ValidationError, AppError } = require('../utils/errors/index');
-const { StatusCodes } = require('http-status-code');
+// const { StatusCodes } = require('http-status-codes');
 class BookingRepository {
 
     async create(data){
@@ -11,13 +11,29 @@ class BookingRepository {
             if(error.name == 'SequelizeValidationError'){
                 throw new ValidationError(error);
             }
-            throw new AppError('RepositoryError','Cannot create Booking','There was some issus creating the booking, please try again later',
+            throw new AppError(
+                'RepositoryError',
+                'Cannot create Booking',
+                'There was some issus creating the booking, please try again later',
             StatusCodes.INTERNAL_SERVER_ERROR);
         }
     }
 
-    async update(data){
-        
+    async update(bookingId , data){
+        try {
+            const booking = await Booking.findByPk(bookingId);
+            if(data.status) {
+                booking.status = data.status;
+            }
+            await booking.save();
+            return booking;
+        } catch (error) {
+            throw new AppError(
+                'RepositoryError',
+                'Cannot update Booking',
+                'There was some issus updating the booking, please try again later',
+            StatusCodes.INTERNAL_SERVER_ERROR);
+        }
     }
 }
 
